@@ -70,6 +70,8 @@ Options:
         Set git branch for repository.
     -t, --target <PATH_TO_BUILD>
         Set local folder or path inside repository for build.
+    -f, --file <PATH_TO_DOCKERFILE>
+        Set path to local dockerfile for build.
 
   Version/Image handling
     -v, --version <VERSION>
@@ -223,6 +225,11 @@ function run_build() {
     # Overwrites
     if [ -n "$DOCKER_HUB" ]; then repository="$DOCKER_HUB"; fi
     if [ -n "$IMAGE" ]; then image="$IMAGE"; fi
+    if [ -n "$BUILD_FILE" ]; then 
+        build_file="$BUILD_FILE"; 
+    else
+        build_file="Dockerfile"
+    fi
 
     # Replace {arch} with build arch for image
     # shellcheck disable=SC1117
@@ -268,6 +275,7 @@ function run_build() {
     # Build image
     bashio::log.info "Run build for $repository/$image:$version"
     docker build --pull -t "$repository/$image:$version" \
+        --file "$build_file" \
         --label "io.hass.version=$version" \
         --build-arg "BUILD_FROM=$build_from" \
         --build-arg "BUILD_VERSION=$version" \
@@ -498,7 +506,7 @@ function build_addon() {
 
     # Set additional labels
     docker_cli+=("--label" "io.hass.name=$name")
-    docker_cli+=("--label" "io.hass.description=$description")
+    docker_cli+=("--label" "io.hass.description=$description)
     docker_cli+=("--label" "io.hass.type=addon")
 
     if [ -n "$url" ]; then
@@ -734,6 +742,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -t|--target)
             TARGET=$2
+            shift
+            ;;
+        -f|--file)
+            BUILD_FILE=$2
             shift
             ;;
         -v|--version)
