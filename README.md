@@ -1,5 +1,5 @@
 # Home Assistant builder
-
+.
 _Multi-purpose cross-compile docker builder._
 
 ## GitHub Action
