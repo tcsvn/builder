@@ -226,7 +226,7 @@ function run_build() {
     if [ -n "$DOCKER_HUB" ]; then repository="$DOCKER_HUB"; fi
     if [ -n "$IMAGE" ]; then image="$IMAGE"; fi
     if [ -n "$BUILD_FILE" ]; then 
-        build_file="$BUILD_FILE"; 
+        build_file="$BUILD_FILE"
     else
         build_file="Dockerfile"
     fi
@@ -506,7 +506,7 @@ function build_addon() {
 
     # Set additional labels
     docker_cli+=("--label" "io.hass.name=$name")
-    docker_cli+=("--label" "io.hass.description=$description)
+    docker_cli+=("--label" "io.hass.description=$description")
     docker_cli+=("--label" "io.hass.type=addon")
 
     if [ -n "$url" ]; then
