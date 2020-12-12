@@ -1,5 +1,5 @@
 {
-    "image": "tcsvn/{arch}-builder",
+    "image": "tchr157/{arch}-builder",
     "build_from": {
         "aarch64": "homeassistant/aarch64-base-ubuntu:18.04",
         "armv7": "homeassistant/armv7-base-ubuntu:18.04",
